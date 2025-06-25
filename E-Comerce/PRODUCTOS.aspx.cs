@@ -12,7 +12,7 @@ namespace E_Comerce
         CONEXION conexión = new CONEXION();
         protected void BtnGuardar_Click(object sender, EventArgs e)
         {
-            conexión.Modificaiones("exec IngresarProductos '"+TxtCod.Text+"', '"+TxtNom.Text+"', '"+TxtDes.Text+"', '"+TxtPre.Text+"', '"+TxtSto.Text+"', '"+TxtCat.Text+"', '"+TxtEst.Text+"', '"+TxtMar.Text+"' ");
+            conexión.Modificaiones("exec IngresarProductos '"+TxtCod.Text+"', '"+TxtNom.Text+"', '"+TxtDes.Text+"', '"+TxtPre.Text+"', '"+TxtSto.Text+"', '"+TxtCat.Text+"', '"+TxtMar.Text+"', '"+TxtEst.Text+"', '"+TextFec.Text+"'  ");
             Response.Write("<script>alert('"+ "Datos guardados correctamente" +"')</script>");
         }
     }

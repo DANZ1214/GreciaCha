@@ -30,14 +30,14 @@
     Categoria:
     <asp:TextBox ID="TxtCat" runat="server"></asp:TextBox>
     <br />
-    <br />
-    Estado:
+     <br />
+    Marca:
     <asp:TextBox ID="TxtMar" runat="server"></asp:TextBox>
     <br />
     <br />
-    Marca:
-    <asp:TextBox ID="TxtEst" runat="server"></asp:TextBox>
-    <br />
+     Estado:
+     <asp:TextBox ID="TxtEst" runat="server"></asp:TextBox>
+     <br />
      <br />
     Fecha adquisición:
     <asp:TextBox ID="TextFec" runat="server" TextMode="Date"></asp:TextBox>
