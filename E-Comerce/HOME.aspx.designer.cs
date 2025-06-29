@@ -11,7 +11,7 @@ namespace E_Comerce
 {
 
 
-    public partial class About
+    public partial class HOME
     {
     }
 }

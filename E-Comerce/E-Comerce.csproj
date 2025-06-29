@@ -97,6 +97,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="About.aspx" />
+    <Content Include="CARRITO.aspx" />
+    <Content Include="CATALOGO.aspx" />
     <Content Include="Contact.aspx" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
@@ -127,6 +129,7 @@
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="HOME.aspx" />
     <Content Include="images\1.png" />
     <Content Include="images\2.png" />
     <Content Include="images\ab_pic.jpg" />
@@ -176,6 +179,7 @@
     <Content Include="images\Marcas.jpg" />
     <Content Include="images\mark1.png" />
     <Content Include="images\mid.jpg" />
+    <Content Include="images\mouse.jpg" />
     <Content Include="images\s1.jpg" />
     <Content Include="images\s2.jpg" />
     <Content Include="images\s3.jpg" />
@@ -186,10 +190,12 @@
     <Content Include="images\s8.jpeg" />
     <Content Include="images\s8.jpg" />
     <Content Include="images\search.png" />
+    <Content Include="images\Servidor Dell PowerEdge T40.jpg" />
     <Content Include="images\t1.jpg" />
     <Content Include="images\t2.jpg" />
     <Content Include="images\t3.jpg" />
     <Content Include="images\t4.jpg" />
+    <Content Include="images\teclado.jpeg" />
     <Content Include="images\tick-mark1.png" />
     <Content Include="images\top1.jpg" />
     <Content Include="images\top2.jpg" />
@@ -298,6 +304,20 @@
       <DependentUpon>About.aspx</DependentUpon>
     </Compile>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="CARRITO.aspx.cs">
+      <DependentUpon>CARRITO.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CARRITO.aspx.designer.cs">
+      <DependentUpon>CARRITO.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CATALOGO.aspx.cs">
+      <DependentUpon>CATALOGO.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CATALOGO.aspx.designer.cs">
+      <DependentUpon>CATALOGO.aspx</DependentUpon>
+    </Compile>
     <Compile Include="CONEXION.cs" />
     <Compile Include="Contact.aspx.cs">
       <DependentUpon>Contact.aspx</DependentUpon>
@@ -315,6 +335,13 @@
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="HOME.aspx.cs">
+      <DependentUpon>HOME.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="HOME.aspx.designer.cs">
+      <DependentUpon>HOME.aspx</DependentUpon>
     </Compile>
     <Compile Include="LOGIN.aspx.cs">
       <DependentUpon>LOGIN.aspx</DependentUpon>

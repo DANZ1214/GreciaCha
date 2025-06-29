@@ -34,15 +34,15 @@ namespace E_Comerce
                     // Redireccionar según rol
                     if (rol == "1")
                     {
-                        Response.Redirect("PRODUCTOS.aspx");
+                        Response.Redirect("HOME.aspx");
                     }
                     else if (rol == "2")
                     {
-                        Response.Redirect("EmpleadoHome.aspx");
+                        Response.Redirect("CATALOGO.aspx");
                     }
                     else if (rol == "3")
                     {
-                        Response.Redirect("UsuarioHome.aspx");
+                        Response.Redirect("CATALOGO.aspx");
                     }
                     else
                     {
@@ -59,5 +59,6 @@ namespace E_Comerce
                 reader.Close();
             }
         }
+
     }
 }

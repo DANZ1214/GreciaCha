@@ -11,43 +11,43 @@ namespace E_Comerce
 {
 
 
-    public partial class Site1
+    public partial class CARRITO
     {
 
         /// <summary>
-        /// Control header.
+        /// Control GridCarrito.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder header;
+        protected global::System.Web.UI.WebControls.GridView GridCarrito;
 
         /// <summary>
-        /// Control form1.
+        /// Control LblSubtotal.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm form1;
+        protected global::System.Web.UI.WebControls.Label LblSubtotal;
 
         /// <summary>
-        /// Control ScriptManager1.
+        /// Control BtnVaciar.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.ScriptManager ScriptManager1;
+        protected global::System.Web.UI.WebControls.Button BtnVaciar;
 
         /// <summary>
-        /// Control ContentPlaceHolder1.
+        /// Control BtnConfirmar.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder ContentPlaceHolder1;
+        protected global::System.Web.UI.WebControls.Button BtnConfirmar;
     }
 }
