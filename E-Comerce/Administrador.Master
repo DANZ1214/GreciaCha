@@ -111,7 +111,7 @@
                         <div class="col-md-4 sign-gd">
                             <h4>Menú</h4>
                             <ul>
-                                <li><a href="Default.aspx">Home</a></li>
+                                <li><a href="HOME.aspx">Home</a></li>
                                 <li><a href="about.html">About</a></li>
                                 <li><a href="CATALOGO.aspx">Catálogo</a></li>
                                 <li><a href="CARRITO.aspx">Carrito</a></li>

@@ -8,8 +8,6 @@ namespace E_Comerce
 {
     public partial class CATALOGO : System.Web.UI.Page
     {
-        CONEXION conexion = new CONEXION();
-
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -40,10 +38,8 @@ namespace E_Comerce
             if (!string.IsNullOrEmpty(seleccionActual))
             {
                 ListItem item = rblCategorias.Items.FindByValue(seleccionActual);
-                if (item != null)
-                    item.Selected = true;
-                else
-                    rblCategorias.SelectedIndex = 0;
+                if (item != null) item.Selected = true;
+                else rblCategorias.SelectedIndex = 0;
             }
             else
             {
@@ -70,10 +66,7 @@ namespace E_Comerce
             }
 
             foreach (ListItem item in cblMarcas.Items)
-            {
-                if (marcasSeleccionadas.Contains(item.Value))
-                    item.Selected = true;
-            }
+                item.Selected = marcasSeleccionadas.Contains(item.Value);
         }
 
         private void CargarProductos()
@@ -85,20 +78,16 @@ namespace E_Comerce
 
                 string query = "SELECT IdPro, NomPro, DesPro, PrePro, ImaPro FROM PRODUCTOS WHERE EstPro = 1";
 
-                // ✅ Filtro por categoría
                 if (rblCategorias.SelectedIndex != -1 && rblCategorias.SelectedValue != "0")
                 {
                     query += " AND IdCat = @IdCat";
                     cmd.Parameters.AddWithValue("@IdCat", Convert.ToInt32(rblCategorias.SelectedValue));
                 }
 
-                // ✅ Filtro por marcas
                 List<string> marcasSeleccionadas = new List<string>();
                 foreach (ListItem item in cblMarcas.Items)
-                {
                     if (item.Selected)
                         marcasSeleccionadas.Add(item.Value);
-                }
 
                 if (marcasSeleccionadas.Count > 0)
                 {
@@ -109,11 +98,9 @@ namespace E_Comerce
                         paramNames.Add(paramName);
                         cmd.Parameters.AddWithValue(paramName, marcasSeleccionadas[i]);
                     }
-
                     query += $" AND IdMar IN ({string.Join(",", paramNames)})";
                 }
 
-                // ✅ Filtro por precios
                 if (decimal.TryParse(txtPrecioMin.Text, out decimal precioMin))
                 {
                     query += " AND PrePro >= @PrecioMin";
@@ -124,6 +111,12 @@ namespace E_Comerce
                 {
                     query += " AND PrePro <= @PrecioMax";
                     cmd.Parameters.AddWithValue("@PrecioMax", precioMax);
+                }
+
+                if (!string.IsNullOrWhiteSpace(txtBuscar.Text))
+                {
+                    query += " AND NomPro LIKE @Busqueda";
+                    cmd.Parameters.AddWithValue("@Busqueda", "%" + txtBuscar.Text.Trim() + "%");
                 }
 
                 cmd.CommandText = query;
@@ -140,7 +133,6 @@ namespace E_Comerce
 
         protected void Filtros_Changed(object sender, EventArgs e)
         {
-            // ❗️NO recargues marcas ni categorías aquí
             CargarProductos();
         }
 
@@ -157,10 +149,15 @@ namespace E_Comerce
 
             txtPrecioMin.Text = "";
             txtPrecioMax.Text = "";
+            txtBuscar.Text = "";
 
-            // ✅ Aquí sí se puede recargar todo
             CargarCategorias();
             CargarMarcas();
+            CargarProductos();
+        }
+
+        protected void btnBuscar_Click(object sender, EventArgs e)
+        {
             CargarProductos();
         }
 
@@ -168,7 +165,7 @@ namespace E_Comerce
         {
             if (e.CommandName == "AgregarCarrito")
             {
-                string correo = Session["Correo"] != null ? Session["Correo"].ToString() : "";
+                string correo = Session["Correo"]?.ToString() ?? "";
 
                 if (string.IsNullOrEmpty(correo))
                 {
@@ -207,11 +204,9 @@ namespace E_Comerce
                     }
                 }
 
-                
                 Label lblAgregado = (Label)e.Item.FindControl("lblAgregado");
                 if (lblAgregado != null)
                     lblAgregado.Visible = true;
-
             }
         }
 
@@ -220,7 +215,7 @@ namespace E_Comerce
             if (Session["IdCarrito"] != null)
                 return Convert.ToInt32(Session["IdCarrito"]);
 
-            int nuevoIdCarrito = 0;
+            int nuevoIdCarrito;
 
             using (SqlConnection conn = new SqlConnection("Data Source=localhost; Initial Catalog=E-COMMERCE_PROYECTO; Integrated Security=true"))
             {
@@ -234,9 +229,10 @@ namespace E_Comerce
             Session["IdCarrito"] = nuevoIdCarrito;
             return nuevoIdCarrito;
         }
+
         protected void BtnAgregarModal_Click(object sender, EventArgs e)
         {
-            string correo = Session["Correo"] != null ? Session["Correo"].ToString() : "";
+            string correo = Session["Correo"]?.ToString() ?? "";
 
             if (string.IsNullOrEmpty(correo))
             {
@@ -278,11 +274,9 @@ namespace E_Comerce
                 }
             }
 
-            // Mostrar el label y el botón "Ir al carrito"
             lblAgregadoModal.Visible = true;
             BtnIrCarrito.Visible = true;
             BtnAgregarModal.Visible = false;
         }
-
     }
 }

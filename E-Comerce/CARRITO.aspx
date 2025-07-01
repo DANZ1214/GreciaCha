@@ -31,10 +31,12 @@
         background-color: #d9534f;
         color: white;
         padding: 10px 20px;
+        margin-left: 20px;
         margin-top: 20px;
         border: none;
         border-radius: 4px;
         cursor: pointer;
+        margin-bottom 20px;
     }
 
     .boton-verde {
@@ -45,6 +47,7 @@
         border-radius: 4px;
         cursor: not-allowed;
     }
+
 </style>
 
 <style>

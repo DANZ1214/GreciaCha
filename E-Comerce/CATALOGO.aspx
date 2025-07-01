@@ -1,251 +1,172 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Administrador.Master" AutoEventWireup="true" CodeBehind="CATALOGO.aspx.cs" Inherits="E_Comerce.CATALOGO" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="CATALOGO.aspx.cs" Inherits="E_Comerce.CATALOGO" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="header" runat="server" />
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Catálogo de Productos</title>
 
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <!-- CONTENEDOR PRINCIPAL CON FLEX -->
-    <div style="display: flex; min-height: calc(100vh - 100px);">
-        <!-- PANEL LATERAL -->
-        <div style="width: 1650px; background-color: #f1f1f1; color: #333; padding: 20px;">
-            <h3><i class="fas fa-filter"></i> Filtros</h3>
+    <link href="css/bootstrap.css" rel="stylesheet" />
+    <link href="css/style.css" rel="stylesheet" />
+    <link href="css/font-awesome.css" rel="stylesheet" />
+    <link href="//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet" />
 
-            <h4><i class="fas fa-layer-group"></i> Categoría</h4>
-            <asp:RadioButtonList ID="rblCategorias" runat="server" AutoPostBack="true" OnSelectedIndexChanged="Filtros_Changed" ForeColor="Black" />
-
-            <h4><i class="fas fa-tags"></i> Marcas</h4>
-            <asp:CheckBoxList ID="cblMarcas" runat="server" AutoPostBack="true" OnSelectedIndexChanged="Filtros_Changed" ForeColor="Black" />
-
-            <h4><i class="fas fa-dollar-sign"></i> Precio</h4>
-            <asp:TextBox ID="txtPrecioMin" runat="server" Width="100" placeholder="Mínimo" />
-            <br />
-            <asp:TextBox ID="txtPrecioMax" runat="server" Width="100" placeholder="Máximo" />
-            <br /><br />
-            <asp:Button ID="btnAplicarPrecio" runat="server" Text="Aplicar" OnClick="btnAplicarPrecio_Click" CssClass="boton-verde" />
-            <br /><br />
-            <asp:Button ID="btnLimpiarFiltros" runat="server" Text="Limpiar filtros" OnClick="btnLimpiarFiltros_Click" CssClass="boton-rojo" />
-        </div>
-
-        <!-- ZONA DE PRODUCTOS -->
-        <div style="flex-grow: 1; padding: 20px; background-color: #ffffff;">
-            <asp:UpdatePanel ID="UpdatePanel1" runat="server">
-                <ContentTemplate>
-                    <asp:Repeater ID="RepeaterProductos" runat="server" OnItemCommand="RepeaterProductos_ItemCommand">
-                        <ItemTemplate>
-                            <div class="card" onclick="mostrarDetalle('<%# Eval("ImaPro") %>', '<%# Eval("NomPro").ToString().Replace("'", "\\'") %>', '<%# Eval("DesPro").ToString().Replace("'", "\\'") %>', '<%# Eval("PrePro") %>', '<%# Eval("IdPro") %>'); return false;">
-                                <img src='<%# Eval("ImaPro") %>' alt="Producto" class="card-img" />
-                                <h3 class="card-title"><%# Eval("NomPro") %></h3>
-                                <p class="card-desc"><%# Eval("DesPro") %></p>
-                                <p class="card-price"><i class="fas fa-dollar-sign"></i> <%# Eval("PrePro") %></p>
-
-                                <asp:Label ID="lblAgregado" runat="server" Text="✅ Agregado al carrito" CssClass="label-agregado" Visible="false" />
-
-                                <asp:Button ID="BtnAgregarCarrito" runat="server" Text="Agregar al carrito"
-                                    CommandName="AgregarCarrito"
-                                    CommandArgument='<%# Eval("IdPro") %>'
-                                    CssClass="boton-verde"
-                                    CausesValidation="false" UseSubmitBehavior="false" />
-                            </div>
-                        </ItemTemplate>
-                    </asp:Repeater>
-
-                    <a href="CARRITO.aspx" style="display: block; text-align: right; margin: 15px; font-size: 20px;">
-                        🛒 Ver carrito
-                    </a>
-                </ContentTemplate>
-            </asp:UpdatePanel>
-        </div>
-    </div>
-
-    <!-- MODAL DETALLE PRODUCTO -->
-    <div id="modalDetalle" class="modal">
-        <div class="modal-content">
-            <span class="cerrar-modal" onclick="cerrarModal()">&times;</span>
-            <div class="modal-body">
-                <img id="modal-img" src="" alt="Producto" />
-                <div class="modal-info">
-                    <h2 id="modal-titulo"></h2>
-                    <p id="modal-desc"></p>
-                    <p id="modal-precio"></p>
-
-                    <asp:Button ID="BtnAgregarModal" runat="server" Text="Agregar al carrito" CssClass="boton-verde" OnClick="BtnAgregarModal_Click" />
-                    <asp:Label ID="lblAgregadoModal" runat="server" Text="✅ Agregado al carrito" CssClass="label-agregado" Visible="false" />
-                    <asp:Button ID="BtnIrCarrito" runat="server" Text="Ir al carrito" CssClass="boton-verde" OnClientClick="window.location='CARRITO.aspx'; return false;" Visible="false" />
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Campo oculto para saber qué producto se está agregando -->
-    <asp:HiddenField ID="hiddenIdPro" runat="server" />
-
-    <!-- ESTILOS -->
     <style>
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            overflow-y: auto;
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f8f9fa;
+        }
+        .filtros {
+            width: 220px;
+            float: left;
+            margin-right: 30px;
         }
 
-        .card {
-            display: inline-block;
-            width: 240px;
-            height: 430px;
-            margin: 10px;
+        .productos {
+            margin-left: 250px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .producto {
+            width: 220px;
             border: 1px solid #ccc;
-            padding: 12px;
+            padding: 10px;
             border-radius: 6px;
-            text-align: center;
-            background-color: #fff;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-            vertical-align: top;
-            overflow: hidden;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            position: relative;
         }
 
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        .card-img {
+        .producto img {
             width: 100%;
-            height: 140px;
+            height: 150px;
             object-fit: cover;
-            border-radius: 4px;
-            margin-bottom: 10px;
         }
 
-        .card-title {
-            font-size: 16px;
-            font-weight: bold;
-            height: 40px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        .card-desc {
-            font-size: 13px;
-            color: #555;
-            height: 60px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-        }
-
-        .card-price {
-            font-weight: bold;
-            margin: 10px 0;
-        }
-
-        .boton-verde, .boton-rojo {
-            background-color: #5cb85c;
-            color: white;
+        .btn {
             padding: 6px 12px;
             border: none;
             border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .boton-rojo {
-            background-color: #d9534f;
-        }
-
-        .boton-verde:hover {
-            background-color: #449d44;
-        }
-
-        .boton-rojo:hover {
-            background-color: #c9302c;
-        }
-
-        .label-agregado {
-            color: green;
             font-size: 14px;
-            font-weight: bold;
-            display: block;
-            margin-top: 8px;
-        }
-
-        /* MODAL */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 9999;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.6);
-        }
-
-        .modal-content {
-            background-color: #fff;
-            margin: 5% auto;
-            padding: 20px;
-            border-radius: 10px;
-            width: 80%;
-            max-width: 900px;
-            position: relative;
-        }
-
-        .cerrar-modal {
-            position: absolute;
-            top: 10px;
-            right: 20px;
-            font-size: 28px;
-            font-weight: bold;
             cursor: pointer;
         }
 
-        .modal-body {
-            display: flex;
-            gap: 30px;
-            align-items: flex-start;
+        .btn-success {
+            background-color: #28a745;
+            color: white;
         }
 
-        .modal-body img {
-            width: 50%;
-            height: auto;
-            border-radius: 8px;
-            object-fit: cover;
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
         }
 
-        .modal-info {
-            width: 50%;
-        }
-
-        .modal-info h2 {
-            margin-top: 0;
-        }
-
-        .modal-info p {
-            margin: 10px 0;
+        .label-success {
+            color: green;
+            font-weight: bold;
         }
     </style>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <asp:ScriptManager ID="ScriptManager1" runat="server" />
 
-    <script>
-        function mostrarDetalle(img, nombre, desc, precio, idPro) {
-            document.getElementById("modal-img").src = img;
-            document.getElementById("modal-titulo").innerText = nombre;
-            document.getElementById("modal-desc").innerText = desc;
-            document.getElementById("modal-precio").innerText = "Precio: $" + precio;
+        <!-- ENCABEZADO -->
+        <div class="header">
+            <div class="container">
+                <ul>
+                    <li><i class="fa fa-phone"></i> Tel: 96563232</li>
+                    <li><i class="fa fa-envelope-o"></i> <a href="mailto:info@technova.com">info@technova.com</a></li>
+                </ul>
+            </div>
+        </div>
 
-            document.getElementById('<%= BtnAgregarModal.ClientID %>').style.display = 'inline-block';
-            document.getElementById('<%= lblAgregadoModal.ClientID %>').style.display = 'none';
-            document.getElementById('<%= BtnIrCarrito.ClientID %>').style.display = 'none';
+        <div class="header-bot">
+            <div class="header-bot_inner_wthreeinfo_header_mid">
+                <div class="col-md-4 logo_agile">
+                    <h1><a href="Default.aspx"><span>T</span><i class="fa fa-laptop top_logo_agile_bag"></i>echNova</a></h1>
+                </div>
+                <div class="col-md-4 header-middle">
+                    <asp:TextBox ID="txtBuscar" runat="server" CssClass="form-control" Placeholder="Buscar productos..." />
+                    <asp:Button ID="btnBuscar" runat="server" Text="Buscar" CssClass="btn btn-primary" OnClick="btnBuscar_Click" />
+                </div>
+                <div class="col-md-4 top_nav_right">
+                    <a href="CARRITO.aspx" class="btn"><i class="fa fa-shopping-cart"></i> Carrito</a>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
 
-            document.getElementById('<%= hiddenIdPro.ClientID %>').value = idPro;
+        <div class="ban-top">
+            <div class="container">
+                <nav class="navbar navbar-default">
+                    <div class="container-fluid">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu-principal">
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                        </div>
+                        <div class="collapse navbar-collapse" id="menu-principal">
+                            <ul class="nav navbar-nav menu__list">
+                                <li><a class="menu__link" href="HOME.aspx">Home</a></li>
+                                <li><a class="menu__link" href="About.aspx">About</a></li>
+                                <li><a class="menu__link" href="CATALOGO.aspx">Catálogo</a></li>
+                                <li><a class="menu__link" href="CARRITO.aspx"><i class="fa fa-shopping-cart"></i> Carrito</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
 
-            document.getElementById("modalDetalle").style.display = "block";
-        }
+        <!-- FILTROS Y PRODUCTOS -->
+        <div class="filtros">
+            <h3>☑ Filtros</h3>
 
-        function cerrarModal() {
-            document.getElementById("modalDetalle").style.display = "none";
-        }
-    </script>
-</asp:Content>
+            <label>Categoría</label><br />
+            <asp:RadioButtonList ID="rblCategorias" runat="server" AutoPostBack="true" OnSelectedIndexChanged="Filtros_Changed" />
+
+            <hr />
+            <label>Marcas</label><br />
+            <asp:CheckBoxList ID="cblMarcas" runat="server" AutoPostBack="true" OnSelectedIndexChanged="Filtros_Changed" />
+
+            <hr />
+            <label>Precio</label><br />
+            <asp:TextBox ID="txtPrecioMin" runat="server" Placeholder="Mínimo" Width="100%" /><br />
+            <asp:TextBox ID="txtPrecioMax" runat="server" Placeholder="Máximo" Width="100%" /><br /><br />
+
+            <asp:Button ID="btnAplicarPrecio" runat="server" Text="Aplicar" CssClass="btn btn-success" OnClick="btnAplicarPrecio_Click" />
+            <asp:Button ID="btnLimpiarFiltros" runat="server" Text="Limpiar filtros" CssClass="btn btn-danger" OnClick="btnLimpiarFiltros_Click" />
+        </div>
+
+        <div class="productos">
+            <asp:Repeater ID="RepeaterProductos" runat="server" OnItemCommand="RepeaterProductos_ItemCommand">
+                <ItemTemplate>
+                    <div class="producto">
+                        <img src='<%# Eval("ImaPro") %>' alt='<%# Eval("NomPro") %>' />
+                        <h4><%# Eval("NomPro") %></h4>
+                        <p><%# Eval("DesPro") %></p>
+                        <p><strong>L. <%# Eval("PrePro", "{0:N2}") %></strong></p>
+
+                        <asp:Button ID="btnAgregar" runat="server" Text="Agregar al carrito"
+                            CommandName="AgregarCarrito"
+                            CommandArgument='<%# Eval("IdPro") %>' CssClass="btn btn-success" />
+
+                        <asp:Label ID="lblAgregado" runat="server" Text="¡Agregado!" Visible="false" CssClass="label-success" />
+                    </div>
+                </ItemTemplate>
+            </asp:Repeater>
+        </div>
+
+        <!-- Agregado desde modal -->
+        <asp:HiddenField ID="hiddenIdPro" runat="server" />
+        <asp:Button ID="BtnAgregarModal" runat="server" Text="Agregar desde modal" OnClick="BtnAgregarModal_Click" Style="display:none;" />
+        <asp:Label ID="lblAgregadoModal" runat="server" Text="¡Agregado!" Visible="false" />
+        <asp:Button ID="BtnIrCarrito" runat="server" Text="Ir al carrito" Visible="false" />
+    </form>
+
+    <!-- Scripts Bootstrap -->
+    <script src="js/jquery-2.1.4.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+</body>
+</html>

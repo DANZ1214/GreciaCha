@@ -167,6 +167,7 @@
     <Content Include="images\d3.jpg" />
     <Content Include="images\inner1.jpg" />
     <Content Include="images\inner2.jpg" />
+    <Content Include="images\logo_technova.png" />
     <Content Include="images\log_pic.jpg" />
     <Content Include="images\m1.jpg" />
     <Content Include="images\m2.jpg" />
@@ -191,6 +192,7 @@
     <Content Include="images\s8.jpg" />
     <Content Include="images\search.png" />
     <Content Include="images\Servidor Dell PowerEdge T40.jpg" />
+    <Content Include="images\supermercado_fondo.png" />
     <Content Include="images\t1.jpg" />
     <Content Include="images\t2.jpg" />
     <Content Include="images\t3.jpg" />
