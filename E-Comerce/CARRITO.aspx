@@ -1,67 +1,127 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Administrador.Master" AutoEventWireup="true" CodeBehind="CARRITO.aspx.cs" Inherits="E_Comerce.CARRITO" %>
-<asp:Content ID="Content1" ContentPlaceHolderID="header" runat="server">
-</asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <asp:GridView ID="GridCarrito" runat="server" AutoGenerateColumns="False"
-    OnRowCommand="GridCarrito_RowCommand" DataKeyNames="IdDetCar" CssClass="table">
-    <Columns>
-        <asp:BoundField DataField="NomPro" HeaderText="Producto" />
-        <asp:ImageField DataImageUrlField="ImaPro" HeaderText="Imagen" 
-                        ControlStyle-Width="80" ControlStyle-Height="80" />
-        <asp:BoundField DataField="PrePro" HeaderText="Precio" DataFormatString="{0:C}" />
-        <asp:BoundField DataField="CanPro" HeaderText="Cantidad" />
-        <asp:BoundField DataField="Total" HeaderText="Total" DataFormatString="{0:C}" />
-        <asp:ButtonField CommandName="Eliminar" Text="Eliminar" ButtonType="Button" />
-    </Columns>
-</asp:GridView>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="CARRITO.aspx.cs" Inherits="E_Comerce.CARRITO" %>
 
-<br />
-<asp:Label ID="LblSubtotal" runat="server" Font-Bold="true" Font-Size="Large"></asp:Label>
-<br />
-<asp:Button ID="BtnVaciar" runat="server" Text="Vaciar Carrito"
-    OnClick="BtnVaciar_Click"
-    CausesValidation="false" UseSubmitBehavior="false"
-    CssClass="boton-rojo" />
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Carrito de Compras</title>
+    <link href="css/bootstrap.css" rel="stylesheet" />
+    <link href="css/font-awesome.css" rel="stylesheet" />
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f9f9f9;
+        }
 
-<asp:Button ID="BtnConfirmar" runat="server" Text="Confirmar Compra" Enabled="false"
-            CssClass="boton-verde" Style="margin-left: 20px;" />
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            padding: 30px;
+        }
 
-<style>
-    .boton-rojo {
-        background-color: #d9534f;
-        color: white;
-        padding: 10px 20px;
-        margin-left: 20px;
-        margin-top: 20px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        margin-bottom 20px;
-    }
+        .item-carrito {
+            display: flex;
+            align-items: center;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
 
-    .boton-verde {
-        background-color: #5cb85c;
-        color: white;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 4px;
-        cursor: not-allowed;
-    }
+        .item-carrito img {
+            height: 100px;
+            width: 100px;
+            object-fit: cover;
+            margin-right: 20px;
+            border-radius: 4px;
+        }
 
-</style>
+        .item-detalles {
+            flex-grow: 1;
+        }
 
-<style>
-    .table {
-        width: 90%;
-        margin: 20px auto;
-        border-collapse: collapse;
-    }
-    .table th, .table td {
-        padding: 10px;
-        border: 1px solid #ccc;
-        text-align: center;
-    }
-</style>
+        .item-detalles h5 {
+            margin-bottom: 5px;
+        }
 
-</asp:Content>
+        .acciones {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
 
+        .subtotal-section {
+            text-align: right;
+            margin-top: 30px;
+            font-size: 20px;
+        }
+
+        .vacio {
+            text-align: center;
+            margin-top: 80px;
+            font-size: 20px;
+            color: gray;
+        }
+
+        .cantidad-textbox {
+            width: 60px;
+            text-align: center;
+            margin-right: 5px;
+        }
+
+        .btn-outline-danger {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div class="container">
+            <h2 class="mb-4">Mi Carrito</h2>
+
+            <!-- Carrito Vacío -->
+            <asp:PlaceHolder ID="phCarritoVacio" runat="server" Visible="false">
+                <div class="vacio">
+                    <i class="fa fa-shopping-cart fa-3x mb-3"></i><br />
+                    Tu carrito está vacío.
+                </div>
+            </asp:PlaceHolder>
+
+            <!-- Carrito Lleno -->
+            <asp:PlaceHolder ID="phCarritoLleno" runat="server" Visible="false">
+                <asp:Repeater ID="RepeaterCarrito" runat="server" OnItemCommand="RepeaterCarrito_ItemCommand">
+                    <ItemTemplate>
+                        <div class="item-carrito">
+                            <img src='<%# Eval("ImaPro") %>' alt="Imagen" />
+                            <div class="item-detalles">
+                                <h5><%# Eval("NomPro") %></h5>
+                                <p>
+                                    <asp:TextBox ID="txtCantidad" runat="server" CssClass="cantidad-textbox"
+                                        Text='<%# Eval("CanPro") %>' />
+                                    x L. <%# Eval("PrePro", "{0:N2}") %>
+                                </p>
+                                <strong>Total: L. <%# Eval("Total", "{0:N2}") %></strong>
+                            </div>
+                            <div class="acciones">
+                                <asp:Button ID="btnActualizar" runat="server" Text="Actualizar"
+                                    CssClass="btn btn-warning btn-sm mb-1"
+                                    CommandName="Actualizar" CommandArgument='<%# Eval("IdDetCar") %>' />
+                                <asp:Button ID="btnEliminar" runat="server" Text="Eliminar"
+                                    CssClass="btn btn-danger btn-sm"
+                                    CommandName="Eliminar" CommandArgument='<%# Eval("IdDetCar") %>' />
+                            </div>
+                        </div>
+                    </ItemTemplate>
+                </asp:Repeater>
+
+                <div class="subtotal-section">
+                    <asp:Label ID="LblSubtotal" runat="server" CssClass="fw-bold" />
+                    <br />
+                    <asp:Button ID="BtnVaciar" runat="server" Text="Vaciar Carrito"
+                        CssClass="btn btn-outline-danger mt-2" OnClick="BtnVaciar_Click" />
+                </div>
+            </asp:PlaceHolder>
+        </div>
+    </form>
+</body>
+</html>

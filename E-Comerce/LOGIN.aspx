@@ -153,17 +153,16 @@
     </style>
 </head>
 <body>
-    <!-- Loader -->
+
     <div id="loaderOverlay">
         <div class="spinner-border" role="status">
             <span class="visually-hidden">Cargando...</span>
         </div>
     </div>
 
-    <!-- Fondo imagen -->
+
     <div class="background-card"></div>
 
-    <!-- Formulario -->
     <form id="form1" runat="server" onsubmit="mostrarLoader()">
         <div id="loginCard" class="login-card">
             <img src="images/logo_technova.png" alt="Logo" class="logo" />

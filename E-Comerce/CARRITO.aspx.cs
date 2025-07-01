@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
+using System.Web.UI.WebControls;
 
 namespace E_Comerce
 {
@@ -15,7 +17,23 @@ namespace E_Comerce
 
                 if (string.IsNullOrEmpty(correo) || idCarrito == 0)
                 {
-                    Response.Redirect("CATALOGO.aspx");
+                    string script = @"
+                <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+                <script>
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Acceso denegado',
+                        text: 'Debes iniciar sesión y agregar productos al carrito.',
+                        confirmButtonText: 'Ir al Catálogo',
+                        confirmButtonColor: '#3085d6'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = 'CATALOGO.aspx';
+                        }
+                    });
+                </script>";
+
+                    ClientScript.RegisterStartupScript(this.GetType(), "AlertaCarritoVacio", script);
                     return;
                 }
 
@@ -51,27 +69,31 @@ namespace E_Comerce
                 DataTable dt = new DataTable();
                 adapter.Fill(dt);
 
-                GridCarrito.DataSource = dt;
-                GridCarrito.DataBind();
-
-                // Subtotal
-                decimal subtotal = 0;
-                foreach (DataRow row in dt.Rows)
+                if (dt.Rows.Count == 0)
                 {
-                    subtotal += Convert.ToDecimal(row["Total"]);
+                    phCarritoVacio.Visible = true;
+                    phCarritoLleno.Visible = false;
                 }
+                else
+                {
+                    phCarritoVacio.Visible = false;
+                    phCarritoLleno.Visible = true;
 
-                LblSubtotal.Text = "Subtotal: $" + subtotal.ToString("0.00");
+                    RepeaterCarrito.DataSource = dt;
+                    RepeaterCarrito.DataBind();
+
+                    decimal subtotal = dt.AsEnumerable().Sum(row => Convert.ToDecimal(row["Total"]));
+                    LblSubtotal.Text = "Subtotal: L. " + subtotal.ToString("N2");
+                }
             }
         }
 
-        protected void GridCarrito_RowCommand(object sender, System.Web.UI.WebControls.GridViewCommandEventArgs e)
+        protected void RepeaterCarrito_ItemCommand(object source, RepeaterCommandEventArgs e)
         {
+            int idDetCar = Convert.ToInt32(e.CommandArgument);
+
             if (e.CommandName == "Eliminar")
             {
-                int rowIndex = Convert.ToInt32(e.CommandArgument);
-                int idDetCar = Convert.ToInt32(GridCarrito.DataKeys[rowIndex].Value);
-
                 using (SqlConnection conn = new SqlConnection("Data Source=localhost; Initial Catalog=E-COMMERCE_PROYECTO; Integrated Security=true"))
                 {
                     SqlCommand cmd = new SqlCommand("DELETE FROM DETALLESCARRITO WHERE IdDetCar = @Id", conn);
@@ -79,15 +101,30 @@ namespace E_Comerce
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-
-                CargarCarrito();
             }
+            else if (e.CommandName == "Actualizar")
+            {
+                TextBox txtCantidad = (TextBox)e.Item.FindControl("txtCantidad");
+                int nuevaCantidad = 1;
+
+                if (int.TryParse(txtCantidad.Text, out nuevaCantidad) && nuevaCantidad > 0)
+                {
+                    using (SqlConnection conn = new SqlConnection("Data Source=localhost; Initial Catalog=E-COMMERCE_PROYECTO; Integrated Security=true"))
+                    {
+                        SqlCommand cmd = new SqlCommand("UPDATE DETALLESCARRITO SET CanPro = @Cant WHERE IdDetCar = @Id", conn);
+                        cmd.Parameters.AddWithValue("@Cant", nuevaCantidad);
+                        cmd.Parameters.AddWithValue("@Id", idDetCar);
+                        conn.Open();
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+
+            CargarCarrito();
         }
 
         protected void BtnVaciar_Click(object sender, EventArgs e)
         {
-            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Entrando al evento Vaciar');", true);
-
             int idCarrito = Convert.ToInt32(Session["IdCarrito"] ?? "0");
 
             if (idCarrito > 0)
@@ -96,12 +133,10 @@ namespace E_Comerce
                 {
                     conn.Open();
 
-                    // Eliminar detalles
                     SqlCommand deleteDetalles = new SqlCommand("DELETE FROM DETALLESCARRITO WHERE IdCar = @IdCar", conn);
                     deleteDetalles.Parameters.AddWithValue("@IdCar", idCarrito);
                     deleteDetalles.ExecuteNonQuery();
 
-                    // Eliminar carrito
                     SqlCommand deleteCarrito = new SqlCommand("DELETE FROM CARRITOS WHERE IdCar = @IdCar", conn);
                     deleteCarrito.Parameters.AddWithValue("@IdCar", idCarrito);
                     deleteCarrito.ExecuteNonQuery();
@@ -111,8 +146,5 @@ namespace E_Comerce
                 Response.Redirect("CATALOGO.aspx");
             }
         }
-
-
-
     }
 }

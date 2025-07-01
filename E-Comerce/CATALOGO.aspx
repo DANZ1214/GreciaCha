@@ -15,14 +15,19 @@
             font-family: 'Open Sans', sans-serif;
             background-color: #f8f9fa;
         }
+
+        .main-content {
+            display: flex;
+            padding: 20px;
+        }
+
         .filtros {
-            width: 220px;
-            float: left;
+            width: 240px;
             margin-right: 30px;
         }
 
         .productos {
-            margin-left: 250px;
+            flex: 1;
             display: flex;
             flex-wrap: wrap;
             gap: 20px;
@@ -33,6 +38,7 @@
             border: 1px solid #ccc;
             padding: 10px;
             border-radius: 6px;
+            background-color: white;
         }
 
         .producto img {
@@ -119,43 +125,49 @@
             </div>
         </div>
 
-        <!-- FILTROS Y PRODUCTOS -->
-        <div class="filtros">
-            <h3>☑ Filtros</h3>
+        <!-- CONTENIDO PRINCIPAL -->
+        <div class="main-content">
+            <!-- FILTROS -->
+            <div class="filtros">
+                <h3><i class="fa fa-filter"></i> Filtros</h3>
 
-            <label>Categoría</label><br />
-            <asp:RadioButtonList ID="rblCategorias" runat="server" AutoPostBack="true" OnSelectedIndexChanged="Filtros_Changed" />
+                <label><strong>Categoría</strong></label><br />
+                <asp:RadioButtonList ID="rblCategorias" runat="server" AutoPostBack="true" OnSelectedIndexChanged="Filtros_Changed" CssClass="form-check">
+                </asp:RadioButtonList>
 
-            <hr />
-            <label>Marcas</label><br />
-            <asp:CheckBoxList ID="cblMarcas" runat="server" AutoPostBack="true" OnSelectedIndexChanged="Filtros_Changed" />
+                <hr />
+                <label><strong>Marcas</strong></label><br />
+                <asp:CheckBoxList ID="cblMarcas" runat="server" AutoPostBack="true" OnSelectedIndexChanged="Filtros_Changed" CssClass="form-check">
+                </asp:CheckBoxList>
 
-            <hr />
-            <label>Precio</label><br />
-            <asp:TextBox ID="txtPrecioMin" runat="server" Placeholder="Mínimo" Width="100%" /><br />
-            <asp:TextBox ID="txtPrecioMax" runat="server" Placeholder="Máximo" Width="100%" /><br /><br />
+                <hr />
+                <label><strong>Precio</strong></label><br />
+                <asp:TextBox ID="txtPrecioMin" runat="server" Placeholder="Mínimo" Width="100%" /><br />
+                <asp:TextBox ID="txtPrecioMax" runat="server" Placeholder="Máximo" Width="100%" /><br /><br />
 
-            <asp:Button ID="btnAplicarPrecio" runat="server" Text="Aplicar" CssClass="btn btn-success" OnClick="btnAplicarPrecio_Click" />
-            <asp:Button ID="btnLimpiarFiltros" runat="server" Text="Limpiar filtros" CssClass="btn btn-danger" OnClick="btnLimpiarFiltros_Click" />
-        </div>
+                <asp:Button ID="btnAplicarPrecio" runat="server" Text="Aplicar" CssClass="btn btn-success" OnClick="btnAplicarPrecio_Click" />
+                <asp:Button ID="btnLimpiarFiltros" runat="server" Text="Limpiar filtros" CssClass="btn btn-danger" OnClick="btnLimpiarFiltros_Click" />
+            </div>
 
-        <div class="productos">
-            <asp:Repeater ID="RepeaterProductos" runat="server" OnItemCommand="RepeaterProductos_ItemCommand">
-                <ItemTemplate>
-                    <div class="producto">
-                        <img src='<%# Eval("ImaPro") %>' alt='<%# Eval("NomPro") %>' />
-                        <h4><%# Eval("NomPro") %></h4>
-                        <p><%# Eval("DesPro") %></p>
-                        <p><strong>L. <%# Eval("PrePro", "{0:N2}") %></strong></p>
+            <!-- PRODUCTOS -->
+            <div class="productos">
+                <asp:Repeater ID="RepeaterProductos" runat="server" OnItemCommand="RepeaterProductos_ItemCommand">
+                    <ItemTemplate>
+                        <div class="producto">
+                            <img src='<%# Eval("ImaPro") %>' alt='<%# Eval("NomPro") %>' />
+                            <h4><%# Eval("NomPro") %></h4>
+                            <p><%# Eval("DesPro") %></p>
+                            <p><strong>L. <%# Eval("PrePro", "{0:N2}") %></strong></p>
 
-                        <asp:Button ID="btnAgregar" runat="server" Text="Agregar al carrito"
-                            CommandName="AgregarCarrito"
-                            CommandArgument='<%# Eval("IdPro") %>' CssClass="btn btn-success" />
+                            <asp:Button ID="btnAgregar" runat="server" Text="Agregar al carrito"
+                                CommandName="AgregarCarrito"
+                                CommandArgument='<%# Eval("IdPro") %>' CssClass="btn btn-success" />
 
-                        <asp:Label ID="lblAgregado" runat="server" Text="¡Agregado!" Visible="false" CssClass="label-success" />
-                    </div>
-                </ItemTemplate>
-            </asp:Repeater>
+                            <asp:Label ID="lblAgregado" runat="server" Text="¡Agregado!" Visible="false" CssClass="label-success" />
+                        </div>
+                    </ItemTemplate>
+                </asp:Repeater>
+            </div>
         </div>
 
         <!-- Agregado desde modal -->
