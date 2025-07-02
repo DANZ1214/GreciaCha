@@ -27,11 +27,10 @@ namespace E_Comerce
                 {
                     string rol = reader["RolUsu"].ToString();
 
-                    // Guardar en sesión
                     Session["Correo"] = correo;
                     Session["Rol"] = rol;
 
-                    // Redireccionar según rol
+                    
                     if (rol == "1")
                     {
                         Response.Redirect("HOME.aspx");
@@ -46,13 +45,13 @@ namespace E_Comerce
                     }
                     else
                     {
-                        // Rol desconocido
+                       
                         ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Rol no reconocido');", true);
                     }
                 }
                 else
                 {
-                    // Credenciales incorrectas
+                   
                     ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Usuario o contraseña inválidos o inactivo');", true);
                 }
 

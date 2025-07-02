@@ -13,27 +13,10 @@ namespace E_Comerce
             if (!IsPostBack)
             {
                 string correo = Session["Correo"]?.ToString();
-                int idCarrito = Convert.ToInt32(Session["IdCarrito"] ?? "0");
 
-                if (string.IsNullOrEmpty(correo) || idCarrito == 0)
+                if (string.IsNullOrEmpty(correo))
                 {
-                    string script = @"
-                <script src='https://cdn.jsdelivr.net/npm/sweetalert2@11'></script>
-                <script>
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'Acceso denegado',
-                        text: 'Debes iniciar sesión y agregar productos al carrito.',
-                        confirmButtonText: 'Ir al Catálogo',
-                        confirmButtonColor: '#3085d6'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.href = 'CATALOGO.aspx';
-                        }
-                    });
-                </script>";
-
-                    ClientScript.RegisterStartupScript(this.GetType(), "AlertaCarritoVacio", script);
+                    Response.Redirect("LOGIN.aspx");
                     return;
                 }
 
@@ -46,9 +29,16 @@ namespace E_Comerce
             string correo = Session["Correo"]?.ToString();
             int idCarrito = Convert.ToInt32(Session["IdCarrito"] ?? "0");
 
-            if (string.IsNullOrEmpty(correo) || idCarrito == 0)
+            if (string.IsNullOrEmpty(correo))
             {
-                Response.Write("<script>alert('Debes iniciar sesión y agregar productos al carrito.');</script>");
+                Response.Redirect("LOGIN.aspx");
+                return;
+            }
+
+            if (idCarrito == 0)
+            {
+                phCarritoVacio.Visible = true;
+                phCarritoLleno.Visible = false;
                 return;
             }
 

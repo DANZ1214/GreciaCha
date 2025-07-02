@@ -1,7 +1,7 @@
 ﻿<%@ Page Title="Inicio" Language="C#" MasterPageFile="~/Administrador.Master" AutoEventWireup="true" CodeBehind="HOME.aspx.cs" Inherits="E_Comerce.HOME" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="header" runat="server">
-    <!-- Puedes agregar más estilos si deseas -->
+    
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">

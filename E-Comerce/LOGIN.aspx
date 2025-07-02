@@ -199,7 +199,7 @@
 
         function onLoginAttempt() {
             mostrarLoader();
-            // Simulación de error → para probar animación (quítalo en producción)
+            
             const input = document.getElementById("TxtCod");
             if (!input.value.includes("@")) {
                 ocultarLoader();
