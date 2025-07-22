@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.UI;
-using System.Web.UI.WebControls;
 
 namespace E_Comerce
 {
@@ -11,7 +8,14 @@ namespace E_Comerce
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!IsPostBack)
+            {
+                RepeaterMenu.DataSource = SiteMap.RootNode.ChildNodes;
+                RepeaterMenu.DataBind();
 
+                RepeaterFooter.DataSource = SiteMap.RootNode.ChildNodes;
+                RepeaterFooter.DataBind();
+            }
         }
     }
 }

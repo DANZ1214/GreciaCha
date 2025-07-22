@@ -136,5 +136,16 @@ namespace E_Comerce
                 Response.Redirect("CATALOGO.aspx");
             }
         }
+        protected void BtnFacturar_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("FACTURACION.aspx");
+        }
+
+        protected void btnPagar_Click(object sender, EventArgs e)
+        {
+            
+            Response.Redirect("COBRO.aspx"); 
+        }
+
     }
 }

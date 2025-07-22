@@ -120,6 +120,11 @@
                     <asp:Button ID="BtnVaciar" runat="server" Text="Vaciar Carrito"
                         CssClass="btn btn-outline-danger mt-2" OnClick="BtnVaciar_Click" />
                 </div>
+                 <div class="text-center mt-4">
+                     <asp:Button ID="btnPagar" runat="server" Text="Pagar Ahora" CssClass="btn btn-success btn-lg" OnClick="btnPagar_Click" />
+                 </div>
+               
+
             </asp:PlaceHolder>
         </div>
     </form>
