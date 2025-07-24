@@ -78,8 +78,8 @@
 
                 <div class="text-center mt-4">
                     <asp:Button ID="btnFinalizar" runat="server" Text="Finalizar Compra"
-                        CssClass="btn btn-success btn-lg px-5 shadow-sm"
-                       CausesValidation="false" OnClick="btnFinalizar_Click" />
+                        OnClientClick="window.location.href='CATALOGO.aspx?compra=ok'; return false;"
+                        CssClass="btn btn-success" />
                 </div>
             </div>
         </div>

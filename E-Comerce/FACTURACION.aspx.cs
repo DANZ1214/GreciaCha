@@ -43,14 +43,13 @@ namespace E_Comerce
                     string tarjeta = $"{reader["NomET"]} - {reader["NomTar"]} - ****{reader["NumTar"].ToString().Substring(reader["NumTar"].ToString().Length - 4)}";
                     lblTarjeta.Text = "Tarjeta: " + tarjeta;
 
-                    // ✅ Fecha de entrega visible
+                    // Fecha de entrega visible
                     DateTime fechaEntrega = Convert.ToDateTime(reader["FecEntVen"]);
                     lblFechaEntrega.Text = "📅 Fecha estimada de entrega: " + fechaEntrega.ToString("dddd dd/MM/yyyy");
                 }
                 conn.Close();
             }
         }
-
 
         private void CargarFacturaDetalle()
         {
@@ -78,8 +77,7 @@ namespace E_Comerce
         {
             Session["IdVenta"] = null;
             Session["IdCarrito"] = null;
-            Response.Redirect("~/CATALOGO.aspx");
-
+            Response.Redirect("CATALOGO.aspx");
         }
     }
 }

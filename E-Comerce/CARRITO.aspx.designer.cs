@@ -33,6 +33,15 @@ namespace E_Comerce
         protected global::System.Web.UI.WebControls.PlaceHolder phCarritoVacio;
 
         /// <summary>
+        /// Control btnIrACatalogo.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnIrACatalogo;
+
+        /// <summary>
         /// Control phCarritoLleno.
         /// </summary>
         /// <remarks>

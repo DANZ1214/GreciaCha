@@ -105,13 +105,22 @@ namespace E_Comerce
         protected global::System.Web.UI.WebControls.Label lblErrorDireccion;
 
         /// <summary>
-        /// Control rptTarjetas.
+        /// Control ddlTarjetas.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptTarjetas;
+        protected global::System.Web.UI.WebControls.DropDownList ddlTarjetas;
+
+        /// <summary>
+        /// Control lblErrorTarjeta.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblErrorTarjeta;
 
         /// <summary>
         /// Control hfTarjetaSeleccionada.
@@ -130,15 +139,6 @@ namespace E_Comerce
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnMostrarFormTarjeta;
-
-        /// <summary>
-        /// Control lblErrorTarjeta.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblErrorTarjeta;
 
         /// <summary>
         /// Control panelNuevaTarjeta.

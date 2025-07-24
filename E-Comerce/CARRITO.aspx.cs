@@ -136,6 +136,7 @@ namespace E_Comerce
                 Response.Redirect("CATALOGO.aspx");
             }
         }
+
         protected void BtnFacturar_Click(object sender, EventArgs e)
         {
             Response.Redirect("FACTURACION.aspx");
@@ -143,9 +144,12 @@ namespace E_Comerce
 
         protected void btnPagar_Click(object sender, EventArgs e)
         {
-            
-            Response.Redirect("COBRO.aspx"); 
+            Response.Redirect("COBRO.aspx");
         }
 
+        protected void btnIrACatalogo_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("CATALOGO.aspx");
+        }
     }
 }

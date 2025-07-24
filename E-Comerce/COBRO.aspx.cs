@@ -57,7 +57,8 @@ namespace E_Comerce
 
         private void CargarTarjetas()
         {
-            DataTable dt = new DataTable();
+            ddlTarjetas.Items.Clear();
+
             using (SqlCommand cmd = new SqlCommand(@"
                 SELECT T.NumTar, T.NomTar, T.FecExpTar, ET.NomET
                 FROM TARJETAS T
@@ -67,23 +68,20 @@ namespace E_Comerce
             {
                 cmd.Parameters.AddWithValue("@correo", Session["Correo"].ToString());
                 conn.Open();
-                using (SqlDataReader dr = cmd.ExecuteReader())
+                using (SqlDataReader reader = cmd.ExecuteReader())
                 {
-                    dt.Load(dr);
+                    while (reader.Read())
+                    {
+                        string numTar = reader["NumTar"].ToString();
+                        string ultimos4 = numTar.Substring(numTar.Length - 4);
+                        string descripcion = $"{reader["NomET"]} - {reader["NomTar"]} - ****{ultimos4} Exp:{Convert.ToDateTime(reader["FecExpTar"]).ToString("MM/yy")}";
+                        ddlTarjetas.Items.Add(new ListItem(descripcion, numTar));
+                    }
                 }
                 conn.Close();
             }
 
-            dt.Columns.Add("Descripcion", typeof(string));
-            foreach (DataRow row in dt.Rows)
-            {
-                string numTar = row["NumTar"].ToString();
-                string ultimos4 = numTar.Substring(numTar.Length - 4);
-                row["Descripcion"] = $"{row["NomET"]} - {row["NomTar"]} - ****{ultimos4} Exp:{Convert.ToDateTime(row["FecExpTar"]).ToString("MM/yy")}";
-            }
-
-            rptTarjetas.DataSource = dt;
-            rptTarjetas.DataBind();
+            ddlTarjetas.Items.Insert(0, new ListItem("-- Seleccione tarjeta --", ""));
         }
 
         private void MostrarSubtotal()
@@ -183,7 +181,6 @@ namespace E_Comerce
             CargarTarjetas();
         }
 
-
         protected void btnPagar_Click(object sender, EventArgs e)
         {
             bool isValid = true;
@@ -191,6 +188,9 @@ namespace E_Comerce
             lblErrorCiudad.Text = "";
             lblErrorDireccion.Text = "";
             lblErrorTarjeta.Text = "";
+
+            // Guardar selección actual del DropDownList en el HiddenField
+            hfTarjetaSeleccionada.Value = ddlTarjetas.SelectedValue;
 
             if (string.IsNullOrEmpty(ddlDepartamentos.SelectedValue))
             {
@@ -272,7 +272,7 @@ namespace E_Comerce
                 }
                 catch
                 {
-                    // Puedes registrar el error del rollback si quieres
+                    // Opcional: registrar error rollback
                 }
                 throw;
             }
@@ -281,7 +281,6 @@ namespace E_Comerce
                 conn.Close();
             }
         }
-
 
         private DateTime CalcularFechaEntrega(DateTime fechaPedido, int diasHabiles)
         {

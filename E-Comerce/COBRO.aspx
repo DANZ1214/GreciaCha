@@ -65,17 +65,10 @@
 
             <div class="form-group">
                 <label>Método de pago:</label>
-                <asp:Repeater ID="rptTarjetas" runat="server">
-                    <ItemTemplate>
-                        <label class="card-option">
-                            <input type="radio" name="metodoPago" value='<%# Eval("NumTar") %>' onclick="seleccionarTarjeta(this)" />
-                            <div><b><%# Eval("Descripcion") %></b></div>
-                        </label>
-                    </ItemTemplate>
-                </asp:Repeater>
+                <asp:DropDownList ID="ddlTarjetas" runat="server" CssClass="form-control" AutoPostBack="false" />
+                <asp:Label ID="lblErrorTarjeta" runat="server" CssClass="text-danger d-block" />
                 <asp:HiddenField ID="hfTarjetaSeleccionada" runat="server" />
                 <asp:Button ID="btnMostrarFormTarjeta" runat="server" Text="Agregar nueva tarjeta" CssClass="btn btn-link mt-2" OnClick="btnMostrarFormTarjeta_Click" />
-                <asp:Label ID="lblErrorTarjeta" runat="server" CssClass="text-danger d-block"></asp:Label>
             </div>
 
             <asp:Panel ID="panelNuevaTarjeta" runat="server" Visible="false" CssClass="border p-3 mt-3">
@@ -83,22 +76,22 @@
                 <div class="form-group">
                     <label>Nombre Tarjeta:</label>
                     <asp:TextBox ID="txtNomTar" runat="server" CssClass="form-control" />
-                    <asp:Label ID="lblErrorNombre" runat="server" CssClass="text-danger d-block"></asp:Label>
+                    <asp:Label ID="lblErrorNombre" runat="server" CssClass="text-danger d-block" />
                 </div>
                 <div class="form-group">
                     <label>Número Tarjeta:</label>
                     <asp:TextBox ID="txtNumTar" runat="server" CssClass="form-control" />
-                    <asp:Label ID="lblErrorNumTar" runat="server" CssClass="text-danger d-block"></asp:Label>
+                    <asp:Label ID="lblErrorNumTar" runat="server" CssClass="text-danger d-block" />
                 </div>
                 <div class="form-group">
                     <label>Fecha Expiración (MM/YY):</label>
                     <asp:TextBox ID="txtFecExpTar" runat="server" CssClass="form-control" />
-                    <asp:Label ID="lblErrorFecha" runat="server" CssClass="text-danger d-block"></asp:Label>
+                    <asp:Label ID="lblErrorFecha" runat="server" CssClass="text-danger d-block" />
                 </div>
                 <div class="form-group">
                     <label>CVC:</label>
                     <asp:TextBox ID="txtCVCTar" runat="server" CssClass="form-control" />
-                    <asp:Label ID="lblErrorCVC" runat="server" CssClass="text-danger d-block"></asp:Label>
+                    <asp:Label ID="lblErrorCVC" runat="server" CssClass="text-danger d-block" />
                 </div>
                 <div class="form-group">
                     <label>Tipo Tarjeta:</label>
@@ -120,12 +113,5 @@
 
     <script src="js/jquery-2.1.4.min.js"></script>
     <script src="js/bootstrap.js"></script>
-    <script>
-        function seleccionarTarjeta(input) {
-            document.querySelectorAll('.card-option').forEach(option => option.classList.remove('selected'));
-            input.closest('.card-option').classList.add('selected');
-            document.getElementById('<%= hfTarjetaSeleccionada.ClientID %>').value = input.value;
-        }
-    </script>
 </body>
 </html>

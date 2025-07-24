@@ -79,15 +79,16 @@
         <div class="container">
             <h2 class="mb-4">Mi Carrito</h2>
 
-            <!-- Carrito Vacío -->
             <asp:PlaceHolder ID="phCarritoVacio" runat="server" Visible="false">
                 <div class="vacio">
                     <i class="fa fa-shopping-cart fa-3x mb-3"></i><br />
                     Tu carrito está vacío.
+                    <br />
+                    <asp:Button ID="btnIrACatalogo" runat="server" Text="Ir al Catálogo"
+                        CssClass="btn btn-primary mt-3" OnClick="btnIrACatalogo_Click" />
                 </div>
             </asp:PlaceHolder>
 
-            <!-- Carrito Lleno -->
             <asp:PlaceHolder ID="phCarritoLleno" runat="server" Visible="false">
                 <asp:Repeater ID="RepeaterCarrito" runat="server" OnItemCommand="RepeaterCarrito_ItemCommand">
                     <ItemTemplate>
@@ -123,8 +124,6 @@
                  <div class="text-center mt-4">
                      <asp:Button ID="btnPagar" runat="server" Text="Pagar Ahora" CssClass="btn btn-success btn-lg" OnClick="btnPagar_Click" />
                  </div>
-               
-
             </asp:PlaceHolder>
         </div>
     </form>
