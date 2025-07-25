@@ -5,6 +5,7 @@
 <head runat="server">
     <title>Catálogo de Productos</title>
 
+    <!-- ESTILOS -->
     <link href="css/bootstrap.css" rel="stylesheet" />
     <link href="css/style.css" rel="stylesheet" />
     <link href="css/font-awesome.css" rel="stylesheet" />
@@ -75,7 +76,7 @@
     <form id="form1" runat="server">
         <asp:ScriptManager ID="ScriptManager1" runat="server" />
 
-        <!-- ENCABEZADO -->
+        <!-- HEADER -->
         <div class="header">
             <div class="container">
                 <ul>
@@ -125,7 +126,7 @@
             </div>
         </div>
 
-        <!-- CONTENIDO PRINCIPAL -->
+        <!-- CONTENIDO -->
         <div class="main-content">
             <!-- FILTROS -->
             <div class="filtros">
@@ -175,9 +176,52 @@
         <asp:Button ID="BtnAgregarModal" runat="server" Text="Agregar desde modal" OnClick="BtnAgregarModal_Click" Style="display:none;" />
         <asp:Label ID="lblAgregadoModal" runat="server" Text="¡Agregado!" Visible="false" />
         <asp:Button ID="BtnIrCarrito" runat="server" Text="Ir al carrito" Visible="false" />
+
+        <!-- FOOTER ORIGINAL -->
+        <div class="footer">
+            <div class="footer_agile_inner_info_w3l">
+                <div class="col-md-3 footer-left">
+                    <h2><a href="Default.aspx"><span>T</span>echNova</a></h2>
+                    <p>Gracias por visitarnos.</p>
+                </div>
+                <div class="col-md-9 footer-right">
+                    <div class="sign-grds">
+                        <div class="col-md-4 sign-gd">
+                            <h4>Menú</h4>
+                            <ul>
+                                <li><a href="HOME.aspx">Home</a></li>
+                                <li><a href="About.aspx">About</a></li>
+                                <li><a href="CATALOGO.aspx">Catálogo</a></li>
+                                <li><a href="CARRITO.aspx">Carrito</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-md-5 sign-gd-two">
+                            <h4>Información <span>de contacto</span></h4>
+                            <div class="w3-address">
+                                <div class="w3-address-grid">
+                                    <i class="fa fa-phone"></i>
+                                    <p>+504 9656-3232</p>
+                                </div>
+                                <div class="w3-address-grid">
+                                    <i class="fa fa-envelope"></i>
+                                    <p><a href="mailto:info@technova.com">info@technova.com</a></p>
+                                </div>
+                                <div class="w3-address-grid">
+                                    <i class="fa fa-map-marker"></i>
+                                    <p>Danlí, El Paraíso</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                <p class="copy-right">&copy; 2025 TechNova. Todos los derechos reservados.</p>
+            </div>
+        </div>
     </form>
 
-    <!-- Scripts Bootstrap -->
+    <!-- JS -->
     <script src="js/jquery-2.1.4.min.js"></script>
     <script src="js/bootstrap.js"></script>
 </body>
