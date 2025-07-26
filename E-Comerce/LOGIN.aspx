@@ -66,6 +66,7 @@
             color: white;
             border-radius: 10px;
             font-weight: 600;
+            background-color: #138496;
         }
         .btn-login:hover {
             background-color: #0c2545;

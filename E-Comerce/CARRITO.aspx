@@ -98,9 +98,6 @@
                 <div class="col-md-4 logo_agile">
                     <h1><a href="HOME.aspx"><span>T</span><i class="fa fa-laptop top_logo_agile_bag"></i>echNova</a></h1>
                 </div>
-                <div class="col-md-4 top_nav_right">
-                    <a href="CARRITO.aspx" class="btn"><i class="fa fa-shopping-cart"></i> Carrito</a>
-                </div>
                 <div class="clearfix"></div>
             </div>
         </div>

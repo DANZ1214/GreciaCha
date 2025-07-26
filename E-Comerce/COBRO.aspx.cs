@@ -19,6 +19,7 @@ namespace E_Comerce
                 CargarDepartamentos();
                 CargarTarjetas();
                 MostrarSubtotal();
+                CargarResumen();
             }
         }
 
@@ -84,6 +85,29 @@ namespace E_Comerce
             ddlTarjetas.Items.Insert(0, new ListItem("-- Seleccione tarjeta --", ""));
         }
 
+        private void CargarResumen()
+        {
+            DataTable dt = new DataTable();
+            using (SqlCommand cmd = new SqlCommand(@"
+                SELECT P.NomPro, DC.CanPro, (P.PrePro * DC.CanPro) AS Subtotal
+                FROM DETALLESCARRITO DC
+                JOIN PRODUCTOS P ON DC.IdPro = P.IdPro
+                WHERE DC.IdCar = @idCar", conn))
+            {
+                cmd.Parameters.AddWithValue("@idCar", Convert.ToInt32(Session["IdCarrito"]));
+                using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                {
+                    da.Fill(dt);
+                }
+            }
+            decimal total = 0;
+            foreach (DataRow row in dt.Rows) total += Convert.ToDecimal(row["Subtotal"]);
+            rptDetalleResumen.DataSource = dt;
+            rptDetalleResumen.DataBind();
+            var lit = (Literal)rptDetalleResumen.Controls[rptDetalleResumen.Controls.Count - 1].FindControl("litTotal");
+            if (lit != null) lit.Text = "L. " + total.ToString("N2");
+        }
+
         private void MostrarSubtotal()
         {
             using (SqlCommand cmd = new SqlCommand("SELECT SUM(P.PrePro * DC.CanPro) FROM DETALLESCARRITO DC INNER JOIN PRODUCTOS P ON DC.IdPro = P.IdPro WHERE DC.IdCar = @idCar", conn))
@@ -104,7 +128,7 @@ namespace E_Comerce
 
         protected void btnGuardarTarjeta_Click(object sender, EventArgs e)
         {
-            // Limpiar errores
+            
             lblErrorNombre.Text = "";
             lblErrorNumTar.Text = "";
             lblErrorFecha.Text = "";
@@ -189,7 +213,7 @@ namespace E_Comerce
             lblErrorDireccion.Text = "";
             lblErrorTarjeta.Text = "";
 
-            // Guardar selección actual del DropDownList en el HiddenField
+            
             hfTarjetaSeleccionada.Value = ddlTarjetas.SelectedValue;
 
             if (string.IsNullOrEmpty(ddlDepartamentos.SelectedValue))
@@ -272,7 +296,7 @@ namespace E_Comerce
                 }
                 catch
                 {
-                    // Opcional: registrar error rollback
+                    
                 }
                 throw;
             }
